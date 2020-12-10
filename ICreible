@@ -1,0 +1,18 @@
+# Este es el código para el video del intervalo creíble
+# Parámetros básicos
+p<-0.95
+n=170 
+alpha=0.05 
+
+#Intervalo de confianza frecuentista
+qnorm(c(alpha/2,(1-alpha/2)), mean=p, sd=sqrt((p*(1-p))/n))
+
+# Intervalo creíble del 95%
+qbeta(c(alpha/2,(1-alpha/2)), (n*p)+1, (n-n*p)+1)
+
+# Densidades de las distribuciones normal y beta
+library(ggplot2)
+df1<-data.frame(Values = rnorm(170, p, sqrt(p*(1-p)/n) ), Distribución="Normal")
+df2<-data.frame(Values = rbeta(170, (n*p)+1, (n-n*p)+1 ), Distribución="Beta")
+df<-rbind(df1,df2)
+ggplot(df, aes(x=Values, fill=Distribución))+geom_density(alpha=0.25)       
